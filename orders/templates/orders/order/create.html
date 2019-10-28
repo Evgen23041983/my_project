@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+    Your Shopping Cart| Checkout
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+            <div class="col-md-8">
+                <h4 class="page-header">Заполните форму</h4>
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <p class="text-muted">Имя:</p> {{ form.first_name }}<br>
+                    <p class="text-muted">Фамилия:</p> {{ form.last_name }}<br>
+                    <p class="text-muted">E-mail:</p> {{ form.email }}<br>
+                    <p class="text-muted">Адрес:</p> {{ form.address }}<br>
+                    <p class="text-muted">Индекс</p> {{ form.postal_code }}<br>
+                    <p class="text-muted">Город:</p> {{ form.city }}<br>
+                    <input type="submit" class="btn btn-secondary" value="Отправить">
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="page-header">
+                    Ваши покупки
+                </div>
+                <ul class="list-group">
+                    {% for item in cart %}
+                        <li class="list-group-item">
+                        {{ item.quantity }}x {{ item.product.name }}
+                        <span> {{ item.total_price }} грн.</span>
+                        </li>
+                    {% endfor %}
+
+                <li class="list-group-item ">Итоговая стоимость:  {{ cart.get_total_price }} грн.</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

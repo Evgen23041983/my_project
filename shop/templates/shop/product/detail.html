@@ -1,0 +1,104 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+   <div class="container">
+      <div class="row" style="margin-top: 6%">
+
+        <div class="col-sm-10 blog-main">
+
+          <div class="blog-post">
+              <div class="row">
+                <div >
+                    <div >
+                        <div class="col-md-4 ">
+                            {% for image_item in product.productimage_set.all %}
+                                <div >
+                                    <img src="{{ image_item.image.url }}" class="img-responsive">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-8" style="padding-left: 20px">
+                            <h3>{{ product.name }}</h3>
+                            <h6><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h6>
+                            <p class="text-muted"> {{ product.price }} грн.</p>
+                            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                {% csrf_token %}
+                                {{ cart_product_form.quantity }} <span>шт.</span>
+                                <input type="submit" value="Добавить в корзину" class="btn btn-secondary">
+                            </form>
+                            
+
+                            <div>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs " role="tablist">
+                                  <li role="presentation" >
+                                      <a href="#description" aria-controls="home" role="tab" data-toggle="tab">
+                                          <h5>Описание</h5>
+                                      </a>
+                                  </li>
+                                  <li role="presentation">
+                                      <a href="#delivery" aria-controls="profile" role="tab" data-toggle="tab">
+                                          <h5>Доставка</h5>
+                                      </a>
+                                  </li>
+                                  <li role="presentation">
+                                      <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+                                          <h5>Характеристики</h5>
+                                      </a>
+                                  </li>
+                                  <li role="presentation">
+                                      <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                                          <h5>Отзывы</h5>
+                                      </a>
+                                  </li>
+                                </ul>
+          
+                                <!-- Tab panes -->
+                                <div class="tab-content product-description-tabs">
+                                  <div role="tabpanel" class="tab-pane active" id="description">
+                                      <h3>{{ product.description|safe|linebreaksbr }}</h3>
+                                  </div>
+                                  <div role="tabpanel" class="tab-pane" id="delivery">
+                                  <div class="alert alert-light" role="alert">
+                                  <h3>- Укрпочта        - бесплатно</h3>
+                                  <h3>- Новая почта     - бесплатно</h3>
+                                  <h3>- Самовывоз       - бесплатно</h3>
+                                  </div>
+                                  </div>
+                                  <div role="tabpanel" class="tab-pane" id="messages">
+                                  <div class="alert alert-light" role="alert">
+                                  <h3>{{product.feature}}></h3>
+                                  </div>
+                                  </div>
+                                  
+                                  <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                                </div>
+                                
+          
+                          
+          
+                          </div>
+
+
+
+
+
+
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+
+          </div><!-- /.blog-post -->
+
+        </div><!-- /.blog-main -->
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+{% endblock %}
